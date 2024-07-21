@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>asciipage</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script defer src="https://unpkg.com/htmx.org"></script>
+
+        <style>
+        .asciidisplay {
+            height: 55vh;
+           margin-top: 30px;
+           color: white;
+           overflow: auto;
+           margin: 0;
+           font-family: Arial, sans-serif;
+            background-color: #ff5722;
+           display: flex;
+            width: 95%;
+        }
+        </style>
+    </head>
+    <body>
+        <div class="asciidisplay">
+            <pre>{{.Result}}</pre>
+        </div>
+    </body>
+</html>
