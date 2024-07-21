@@ -1,6 +1,7 @@
 package asciifunc
 
 import (
+	"log"
 	"net/http"
 	"strings"
 	"text/template"
@@ -10,6 +11,20 @@ type Data struct {
 	Result string
 }
 
+func Router(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path == "/" {
+		Indexhandler(w, r)
+	} else if r.URL.Path == "/asciihandler" {
+		Trial(w, r)
+	} else if r.URL.Path == "/400" {
+		BadRequest(w, r)
+		return
+	} else {
+		Pagenofound(w)
+		return
+	}
+}
+
 func Trial(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
@@ -17,20 +32,19 @@ func Trial(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if !CheckFileEmpty(r.Form.Get("Banner")) || !CheckNumberOfLinesInTheFile(r.Form.Get("Banner")) {
-		StatusInternalServerError(w)
-		return
-	}
 	if !IsItAnAsciiCharacter(r.Form.Get("input-text")) {
-		data := Data{
-			Result: "Bad request",
+		log.Println("Non-ASCII character found, responding with 400")
+		data:=Data{
+			Result: "AN NON ASCII CHARACTER USED",
 		}
-		Badrequest(w, data.Result)
-		return
+        w.Header().Set("Content-Type", "text/html")
+        w.WriteHeader(http.StatusOK)
+        tmpl, _ := template.ParseFiles("400.html")
+        tmpl.Execute(w, data)
+        return
 	}
 	Asciihandler(w, r)
 }
-
 func Asciihandler(w http.ResponseWriter, r *http.Request) {
 	var print string
 
