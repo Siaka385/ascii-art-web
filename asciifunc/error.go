@@ -1,6 +1,7 @@
 package asciifunc
 
 import (
+	"log"
 	"net/http"
 	"text/template"
 )
@@ -20,8 +21,18 @@ func StatusInternalServerError(w http.ResponseWriter) {
 	RenderTemplate(w, "500.html", nil, http.StatusInternalServerError)
 }
 
-func Badrequest(w http.ResponseWriter, data string) {
-	RenderTemplate(w, "asciipage.html", data, http.StatusBadRequest)
+func BadRequest(w http.ResponseWriter, r *http.Request) {
+	log.Println("BadRequest handler called")
+
+	tmpl, err := template.ParseFiles("400.html")
+	if err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "text/html")
+	w.WriteHeader(http.StatusBadRequest)
+	tmpl.Execute(w, nil)
 }
 
 func Pagenofound(w http.ResponseWriter) {
