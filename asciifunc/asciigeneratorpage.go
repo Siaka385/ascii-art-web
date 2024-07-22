@@ -17,8 +17,8 @@ func Router(w http.ResponseWriter, r *http.Request) {
 	} else if r.URL.Path == "/asciihandler" {
 		Trial(w, r)
 	} else if r.URL.Path == "/400" {
-		BadRequest(w, r)
-		return
+		// BadRequest(w, r)
+		// return
 	} else {
 		Pagenofound(w)
 		return
@@ -33,18 +33,14 @@ func Trial(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if !IsItAnAsciiCharacter(r.Form.Get("input-text")) {
-		log.Println("Non-ASCII character found, responding with 400")
-		data:=Data{
-			Result: "AN NON ASCII CHARACTER USED",
-		}
-        w.Header().Set("Content-Type", "text/html")
-        w.WriteHeader(http.StatusOK)
-        tmpl, _ := template.ParseFiles("400.html")
-        tmpl.Execute(w, data)
-        return
+		log.Println("Non-ASCII character found, redirecting to /400")
+		http.Redirect(w, r, "/400?error=true", http.StatusFound)
+
+		return
 	}
 	Asciihandler(w, r)
 }
+
 func Asciihandler(w http.ResponseWriter, r *http.Request) {
 	var print string
 
