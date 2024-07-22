@@ -47,6 +47,7 @@ IsItAnAsciiCharacter func
 checks to ensures every character it part of the ascii value range
 */
 func IsItAnAsciiCharacter(m string) bool {
+	m = strings.ReplaceAll(m, "\n", "k")
 	for _, word := range m {
 		if word < 32 || word > 126 {
 			return false
