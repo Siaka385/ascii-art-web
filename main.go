@@ -8,18 +8,15 @@ import (
 )
 
 func main() {
-	// mux := http.NewServeMux()
+	mux := http.NewServeMux()
 	fs := http.FileServer(http.Dir("static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
-	http.HandleFunc("/", asciifunc.Indexhandler)
-	// mux.HandleFunc("/400", asciifunc.BadRequest)
+	mux.HandleFunc("/", asciifunc.Router)
+	mux.HandleFunc("/asciihandler", asciifunc.Trial)
+	mux.HandleFunc("/400", asciifunc.BadRequest)
+	mux.HandleFunc("/400/badrequest", asciifunc.LoadContentHandler)
 
-	// log.Println("starting server on: http://localhost:8080")
-	// log.Fatal(http.ListenAndServe("localhost:8080", mux))
-	http.HandleFunc("/asciihandler", asciifunc.Trial)
-	http.HandleFunc("/400", asciifunc.BadRequest)
-
-	log.Println("Server started on :8080")
-	log.Fatal(http.ListenAndServe(":8084", nil))
+	log.Println("starting server on: http://localhost:8080")
+	log.Fatal(http.ListenAndServe("localhost:8080", mux))
 }
