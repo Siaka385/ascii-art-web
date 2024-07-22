@@ -1,7 +1,6 @@
 package asciifunc
 
 import (
-	"log"
 	"net/http"
 	"text/template"
 )
@@ -22,17 +21,19 @@ func StatusInternalServerError(w http.ResponseWriter) {
 }
 
 func BadRequest(w http.ResponseWriter, r *http.Request) {
-	log.Println("BadRequest handler called")
-
 	tmpl, err := template.ParseFiles("400.html")
 	if err != nil {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
+	if r.URL.Query().Get("error") == "true" {
+		tmpl.Execute(w, nil)
+	}
+}
 
+func LoadContentHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 	w.WriteHeader(http.StatusBadRequest)
-	tmpl.Execute(w, nil)
 }
 
 func Pagenofound(w http.ResponseWriter) {
