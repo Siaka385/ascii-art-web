@@ -32,6 +32,12 @@ func Trial(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if !CheckFileEmpty(r.Form.Get("Banner")) {
+		log.Println("Internal server error encountered, redirecting to /500 page")
+		http.Redirect(w, r, "/500?error=true", http.StatusFound)
+		return
+	}
+
 	if !IsItAnAsciiCharacter(r.Form.Get("input-text")) {
 		log.Println("Non-ASCII character found, redirecting to /400")
 		http.Redirect(w, r, "/400?error=true", http.StatusFound)
