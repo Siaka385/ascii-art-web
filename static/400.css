@@ -40,3 +40,39 @@
         opacity: 1;
     }
 }
+/* Media Queries */
+
+/* For large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    #containers {
+        max-width: 70%;
+        margin-left: 270px;
+    }
+}
+
+/* For medium devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991px) {
+    #containers {
+        height: 500px;
+        max-width: 80%;
+        margin-left: 100px;
+    }
+}
+
+/* For small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767px) {
+    #containers {
+        height: 400px;
+        max-width: 90%;
+        margin-left: 50px;
+    }
+}
+
+/* For extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575px) {
+    #containers {
+        height: 300px;
+        max-width: 95%;
+        margin-left: 20px;
+    }
+}

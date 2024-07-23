@@ -165,3 +165,76 @@ footer {
   text-align: center;
   margin-top: auto;
 }
+  /* Media Queries */
+  @media (max-width: 1000px) {
+    main {
+        flex-direction: column;
+        align-items: center;
+    }
+    .input-section {
+        margin-right: 0;
+        margin-bottom: 20px;
+        width: 100%;
+    }
+    textarea {
+        width: 100%;
+    }
+    .buttons {
+      display: flex;
+      justify-content: space-around;
+    }
+  
+    .displaypic {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      max-width: 100%;
+    }
+    
+    button {
+      padding: 5px 10px;
+      border: none;
+      cursor: pointer;
+      margin: 10px;
+    }
+    
+}
+@media (max-width: 992px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+    }
+    header .logo {
+        margin-bottom: 10px;
+    }
+    .contributors {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    #result {
+        height: 50vh;
+    }
+}
+@media (max-width: 768px) {
+    .buttons {
+        flex-direction: column;
+    }
+    .dropdown-content {
+        min-width: 100px;
+    }
+    .contributors {
+        padding: 10px;
+    }
+}
+@media (max-width: 576px) {
+    .dropdown-content a {
+        padding: 8px 12px;
+    }
+    footer {
+        padding: 5px 0;
+    }
+    #result {
+        height: 45vh;
+        font-size: 8px;
+    }
+}  
