@@ -1,0 +1,42 @@
+#body400{
+    height: 100%;
+     margin: 0;
+      display: flex; 
+      width: 100%;
+      justify-content: center; 
+      align-items: center;
+    background-color:wheat;
+}
+#containers{
+    height: 600px; 
+    width: 100%; 
+    max-width: 600px; 
+    background-image: url('/images/b0de755d2943b5f201c3702fd59f20f8.jpg'); 
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    border-radius: .25rem; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    animation: fadeInAnimation 2s forwards; 
+    position: relative; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    text-align: center;
+    margin-left: 500px;
+}
+#errortext{
+    color: white;
+     background-color: rgba(0, 0, 0, 0.5);
+      padding: 2rem; 
+      border: 1px solid #dee2e6;
+}
+
+@keyframes fadeInAnimation {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
