@@ -55,3 +55,16 @@ func LoadContentHandlerInternalError(w http.ResponseWriter, r *http.Request) {
 func Pagenofound(w http.ResponseWriter) {
 	RenderTemplate(w, "404.html", nil, http.StatusNotFound)
 }
+
+func Wrongmethodused(w http.ResponseWriter, r *http.Request) {
+	tmp, err := template.ParseFiles("405.html")
+	if err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	err = tmp.Execute(w, nil)
+	if err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+}

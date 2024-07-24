@@ -26,6 +26,14 @@ func Router(w http.ResponseWriter, r *http.Request) {
 }
 
 func Trial(w http.ResponseWriter, r *http.Request) {
+	method := strings.ToUpper(r.Method)
+
+	if method != "POST" {
+
+		log.Println("wrong http method encountered, redirecting to /405 page")
+		http.Redirect(w, r, "/405", http.StatusFound)
+		return
+	}
 	err := r.ParseForm()
 	if err != nil {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
