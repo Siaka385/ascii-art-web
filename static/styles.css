@@ -190,7 +190,10 @@ footer {
       justify-content: space-between;
       max-width: 100%;
     }
-    
+    .contributor{
+      display: flex;
+      flex-direction: column;
+    }
     button {
       padding: 5px 10px;
       border: none;
