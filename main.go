@@ -21,6 +21,7 @@ func main() {
 	mux.HandleFunc("/400/badrequest", asciifunc.LoadContentHandler)
 	mux.HandleFunc("/500", asciifunc.StatusInternalServerError)
 	mux.HandleFunc("/internalservererror", asciifunc.LoadContentHandlerInternalError)
+	mux.HandleFunc("/405", asciifunc.Wrongmethodused)
 
 	log.Println("starting server on: http://localhost:8080")
 	log.Fatal(http.ListenAndServe("localhost:8085", mux))
