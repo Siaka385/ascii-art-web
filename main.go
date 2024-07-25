@@ -12,8 +12,8 @@ func main() {
 	fs := http.FileServer(http.Dir("static"))
 	mux.Handle("/static/", http.StripPrefix("/static/", fs))
 
-	img := http.FileServer(http.Dir("images"))
-	mux.Handle("/images/", http.StripPrefix("/images/", img))
+	// img := http.FileServer(http.Dir("images"))
+	// mux.Handle("/images/", http.StripPrefix("/images/", img))
 
 	mux.HandleFunc("/", asciifunc.Router)
 	mux.HandleFunc("/asciihandler", asciifunc.Trial)
@@ -24,5 +24,5 @@ func main() {
 	mux.HandleFunc("/405", asciifunc.Wrongmethodused)
 
 	log.Println("starting server on: http://localhost:8080")
-	log.Fatal(http.ListenAndServe("localhost:8085", mux))
+	log.Fatal(http.ListenAndServe("localhost:8087", mux))
 }
