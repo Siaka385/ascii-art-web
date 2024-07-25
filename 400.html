@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bad Request</title>
     <script defer src="https://unpkg.com/htmx.org@1.7.0"></script>
-    
+    <link href="static/400.css" rel="stylesheet">
 </head>
 <body id="body400">
     <div hx-get="/400/badrequest" hx-target="body" hx-trigger="load" id="containers">
-        <div   id="errortext">
-            <h1 style="color: #dc3545;">Error: Bad Request</h1>
-            <p class="lead">Sorry, the request could not be processed.</p>
+        <div id="errortext">
+            <h1>400: Bad Request</h1>
+            <p>Oops! It seems there was an issue processing your request.</p>
         </div>
     </div>
 </body>

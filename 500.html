@@ -5,15 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>500 Internal Server Error</title>
     <script defer src="https://unpkg.com/htmx.org@1.7.0"></script>
-    <link rel="stylesheet" href="static/500.css">
+    <link href="static/500.css" rel="stylesheet">
 </head>
-<body id="body400">
-        <div hx-boost="true" hx-get="/internalservererror" hx-trigger="load" hx-target="body" hx-swap="innerHTML" id="container500">
-            <div   id="errortext">
-                <h1 style="color: #dc3545;">500 Internal Server Error</h1>
-                <p style="font-size: 1.25rem;">Oops! Something went wrong on our end. Please try again later.</p>
-            </div>
+<body id="body500">
+    <div hx-boost="true" hx-get="/internalservererror" hx-trigger="load" hx-target="body" hx-swap="innerHTML" id="container500">
+        <div id="errortext">
+            <h1>500: Internal Server Error</h1>
+            <p>Oops! Something went wrong on our end. Please try again later.</p>
         </div>
-    
+    </div>
 </body>
 </html>
