@@ -23,6 +23,6 @@ func main() {
 	mux.HandleFunc("/internalservererror", asciifunc.LoadContentHandlerInternalError)
 	mux.HandleFunc("/405", asciifunc.Wrongmethodused)
 
-	log.Println("starting server on: http://localhost:8080")
-	log.Fatal(http.ListenAndServe("localhost:8087", mux))
+	log.Println("starting server on: http://localhost:8087")
+	log.Fatal(http.ListenAndServe("localhost:8086", mux))
 }
