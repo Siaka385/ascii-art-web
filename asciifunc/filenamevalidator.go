@@ -6,28 +6,6 @@ import (
 )
 
 /*
-The Filenamevalidate function checks if a given filename exists among predefined valid filenames and corrects common misspellings or variations of these filenames.
-*/
-
-func Filenamevalidate(m string) string {
-	if !filenameExist(m) {
-		return "FILE DOES NOT EXSIT OR CHECK THE SPELLING OF YOUR FILES (e.g standard.txt)"
-	}
-
-	if m == "shadow" || m == "shadow.text" {
-		return "shadow.txt"
-	} else if m == "thinkertoy" || m == "thinkertoy.txt" {
-		return "thinkertoy.txt"
-	} else {
-		return "standard.txt"
-	}
-}
-
-func filenameExist(m string) bool {
-	return m == "shadow.txt" || m == "thinkertoy.txt" || m == "standard.txt"
-}
-
-/*
 The CheckFileEmpty function determines if a specified file is empty or contains only an empty string.
 */
 func CheckFileEmpty(m string) bool {
