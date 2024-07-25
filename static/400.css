@@ -1,78 +1,130 @@
-#body400{
-    height: 100%;
-     margin: 0;
-      display: flex; 
-      width: 100%;
-      justify-content: center; 
-      align-items: center;
-    background-color:wheat;
+#body400 {
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: #1a1a2e;
+    font-family: 'Roboto', Arial, sans-serif;
 }
-#containers{
-    height: 700px; 
-    width: 100%; 
-    max-width: 600px; 
-    background-image: url('/images/b0de755d2943b5f201c3702fd59f20f8.jpg'); 
-    background-size: cover; 
-    background-position: center; 
-    background-repeat: no-repeat; 
-    border-radius: .25rem; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-    animation: fadeInAnimation 2s forwards; 
-    position: relative; 
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
+
+#containers {
+    height: 45vh;
+    width: 100%;
+    margin-left: 400px;
+    max-width: 600px;
+    background-color: #16213e;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    animation: fadeInAnimation 1s forwards, floatAnimation 3s infinite ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
-    margin-left: 500px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
 }
-#errortext{
-    color: white;
-     background-color: rgba(0, 0, 0, 0.5);
-      padding: 2rem; 
-      border: 1px solid #dee2e6;
+
+#containers::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 0deg, transparent, #e94560, transparent 30%);
+    animation: rotateAnimation 4s linear infinite;
+}
+
+#containers::after {
+    content: '';
+    position: absolute;
+    inset: 5px;
+    background: #16213e;
+    border-radius: 15px;
+    z-index: 1;
+}
+
+#errortext {
+    color: #e0e0e0;
+    z-index: 2;
+    position: relative;
+}
+
+#errortext h1 {
+    color: #e94560;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+#errortext p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.back-btn {
+    background-color: #e94560;
+    color: #fff;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.back-btn:hover {
+    background-color: #d63551;
+    transform: translateY(-2px);
 }
 
 @keyframes fadeInAnimation {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
+
+@keyframes floatAnimation {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes rotateAnimation {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
 /* Media Queries */
-
-/* For large devices (desktops, 992px and up) */
-@media (min-width: 992px) {
+@media (max-width: 1000px) {
     #containers {
-        max-width: 70%;
-        margin-left: 270px;
+        height: 40vh;
+        width: 95%;
+        margin-left: 0px;
+    }
+
+    #errortext h1 {
+        font-size: 2.5rem;
+    }
+
+    #errortext p {
+        font-size: 1rem;
     }
 }
 
-/* For medium devices (tablets, 768px and up) */
-@media (min-width: 768px) and (max-width: 991px) {
+@media (max-width: 480px) {
     #containers {
-        height: 500px;
-        max-width: 80%;
-        margin-left: 100px;
+        height: 30vh;
     }
-}
 
-/* For small devices (landscape phones, 576px and up) */
-@media (min-width: 576px) and (max-width: 767px) {
-    #containers {
-        height: 400px;
-        max-width: 90%;
-        margin-left: 50px;
+    #errortext h1 {
+        font-size: 2rem;
     }
-}
 
-/* For extra small devices (portrait phones, less than 576px) */
-@media (max-width: 575px) {
-    #containers {
-        height: 300px;
-        max-width: 95%;
-        margin-left: 20px;
+    #errortext p {
+        font-size: 0.9rem;
     }
 }
