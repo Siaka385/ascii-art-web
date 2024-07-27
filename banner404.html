@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>500 Internal Server Error</title>
+    <script defer src="https://unpkg.com/htmx.org@1.7.0"></script>
+    <link href="static/500.css" rel="stylesheet">
+</head>
+<body id="body500">
+    <div hx-boost="true" hx-get="/unavailablebanner" hx-trigger="load" hx-target="body" hx-swap="innerHTML" id="container500">
+        <div id="errortext">
+            <h1>404: Bannner not found</h1>
+            <p>The banner you selected,is not available.</p>
+        </div>
+    </div>
+</body>
+</html>
