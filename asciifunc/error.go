@@ -31,6 +31,21 @@ func StatusInternalServerError(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func StatusUnavailableBanner(w http.ResponseWriter, r *http.Request) {
+	tmp, err := template.ParseFiles("banner404.html")
+	if err != nil {
+		http.Error(w, "Internal server Error", http.StatusInternalServerError)
+		return
+	}
+	if r.URL.Query().Get("error") == "true" {
+		err = tmp.Execute(w, nil)
+		if err != nil {
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+			return
+		}
+	}
+}
+
 func BadRequest(w http.ResponseWriter, r *http.Request) {
 	tmpl, err := template.ParseFiles("400.html")
 	if err != nil {
@@ -40,6 +55,11 @@ func BadRequest(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Query().Get("error") == "true" {
 		tmpl.Execute(w, nil)
 	}
+}
+
+func Setstatus(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html")
+	w.WriteHeader(http.StatusNotFound)
 }
 
 func LoadContentHandler(w http.ResponseWriter, r *http.Request) {
