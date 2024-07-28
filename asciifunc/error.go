@@ -1,11 +1,12 @@
 package asciifunc
 
 import (
+	"log"
 	"net/http"
 	"text/template"
 )
 
-func RenderTemplate(w http.ResponseWriter, tmpl string, data interface{}, statusCode int) {
+func PageNotFound(w http.ResponseWriter, tmpl string, data interface{}, statusCode int) {
 	t, err := template.ParseFiles(tmpl)
 	if err != nil {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
@@ -22,70 +23,57 @@ func StatusInternalServerError(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Internal server Error", http.StatusInternalServerError)
 		return
 	}
-	if r.URL.Query().Get("error") == "true" {
-		err = tmp.Execute(w, nil)
-		if err != nil {
-			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-			return
-		}
+
+	err = tmp.Execute(w, nil)
+	if err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
 	}
 }
 
 func StatusUnavailableBanner(w http.ResponseWriter, r *http.Request) {
 	tmp, err := template.ParseFiles("banner404.html")
 	if err != nil {
-		http.Error(w, "Internal server Error", http.StatusInternalServerError)
+		log.Println("Internal server error encountered, redirecting to /500 page")
+		http.Redirect(w, r, "/500?error=true", http.StatusFound)
 		return
 	}
-	if r.URL.Query().Get("error") == "true" {
-		err = tmp.Execute(w, nil)
-		if err != nil {
-			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-			return
-		}
+
+	err = tmp.Execute(w, nil)
+	if err != nil {
+		log.Println("Internal server error encountered, redirecting to /500 page")
+		http.Redirect(w, r, "/500?error=true", http.StatusFound)
+		return
 	}
 }
 
 func BadRequest(w http.ResponseWriter, r *http.Request) {
 	tmpl, err := template.ParseFiles("400.html")
 	if err != nil {
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		log.Println("Internal server error encountered, redirecting to /500 page")
+		http.Redirect(w, r, "/500?error=true", http.StatusFound)
 		return
 	}
-	if r.URL.Query().Get("error") == "true" {
-		tmpl.Execute(w, nil)
-	}
+	tmpl.Execute(w, nil)
 }
 
-func Setstatus(w http.ResponseWriter, r *http.Request) {
+func Setstatus(w http.ResponseWriter, r *http.Request, statusCode int) {
 	w.Header().Set("Content-Type", "text/html")
-	w.WriteHeader(http.StatusNotFound)
-}
-
-func LoadContentHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html")
-	w.WriteHeader(http.StatusBadRequest)
-}
-
-func LoadContentHandlerInternalError(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html")
-	w.WriteHeader(http.StatusInternalServerError)
-}
-
-func Pagenofound(w http.ResponseWriter) {
-	RenderTemplate(w, "404.html", nil, http.StatusNotFound)
+	w.WriteHeader(statusCode)
 }
 
 func Wrongmethodused(w http.ResponseWriter, r *http.Request) {
 	tmp, err := template.ParseFiles("405.html")
 	if err != nil {
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		log.Println("Internal server error encountered, redirecting to /500 page")
+		http.Redirect(w, r, "/500?error=true", http.StatusFound)
 		return
 	}
 	w.WriteHeader(http.StatusMethodNotAllowed)
 	err = tmp.Execute(w, nil)
 	if err != nil {
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		log.Println("Internal server error encountered, redirecting to /500 page")
+		http.Redirect(w, r, "/500?error=true", http.StatusFound)
 		return
 	}
 }
