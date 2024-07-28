@@ -26,6 +26,14 @@ func Router(w http.ResponseWriter, r *http.Request) {
 }
 
 func Trial(w http.ResponseWriter, r *http.Request) {
+	method := strings.ToUpper(r.Method)
+
+	if method != "POST" {
+
+		log.Println("wrong http method encountered, redirecting to /405 page")
+		http.Redirect(w, r, "/405", http.StatusFound)
+		return
+	}
 	err := r.ParseForm()
 	if err != nil {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
@@ -33,8 +41,8 @@ func Trial(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if !CheckFileEmpty(r.Form.Get("Banner")) {
-		log.Println("Internal server error encountered, redirecting to /500 page")
-		http.Redirect(w, r, "/500?error=true", http.StatusFound)
+		log.Println("Bannner unavailabe redirecting to page 404banner")
+		http.Redirect(w, r, "/404banner?error=true", http.StatusFound)
 		return
 	}
 
