@@ -50,8 +50,8 @@ func StatusUnavailableBanner(w http.ResponseWriter, r *http.Request) {
 func BadRequest(w http.ResponseWriter, r *http.Request) {
 	tmpl, err := template.ParseFiles("400.html")
 	if err != nil {
-		log.Println("Internal server error encountered, redirecting to /500 page")
-		http.Redirect(w, r, "/500?error=true", http.StatusFound)
+		log.Println("Internal server error encountered, redirecting to /404 page")
+		http.Redirect(w, r, "/notfound", http.StatusFound)
 		return
 	}
 	tmpl.Execute(w, nil)
@@ -65,8 +65,8 @@ func Setstatus(w http.ResponseWriter, r *http.Request, statusCode int) {
 func Wrongmethodused(w http.ResponseWriter, r *http.Request) {
 	tmp, err := template.ParseFiles("405.html")
 	if err != nil {
-		log.Println("Internal server error encountered, redirecting to /500 page")
-		http.Redirect(w, r, "/500?error=true", http.StatusFound)
+		log.Println("Internal server error encountered, redirecting to /404 page")
+		http.Redirect(w, r, "/notfound", http.StatusFound)
 		return
 	}
 	w.WriteHeader(http.StatusMethodNotAllowed)
