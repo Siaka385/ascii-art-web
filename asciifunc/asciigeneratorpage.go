@@ -15,17 +15,35 @@ func Router(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path == "/" {
 		Indexhandler(w, r)
 	} else if r.URL.Path == "/asciihandler" {
-		Trial(w, r)
+		CheckError(w, r)
 	} else if r.URL.Path == "/400" {
-		// BadRequest(w, r)
-		// return
+		BadRequest(w, r)
+		return
+	} else if r.URL.Path == "/400/badrequest" {
+		Setstatus(w, r, http.StatusBadRequest)
+		return
+	} else if r.URL.Path == "/500" {
+		StatusInternalServerError(w, r)
+		return
+	} else if r.URL.Path == "/internalservererror" {
+		Setstatus(w, r, http.StatusInternalServerError)
+		return
+	} else if r.URL.Path == "/405" {
+		Wrongmethodused(w, r)
+		return
+	} else if r.URL.Path == "/404banner" {
+		StatusUnavailableBanner(w, r)
+		return
+	} else if r.URL.Path == "/unavailablebanner" {
+		Setstatus(w, r, http.StatusNotFound)
+		return
 	} else {
-		Pagenofound(w)
+		PageNotFound(w, "404.html", nil, http.StatusNotFound)
 		return
 	}
 }
 
-func Trial(w http.ResponseWriter, r *http.Request) {
+func CheckError(w http.ResponseWriter, r *http.Request) {
 	method := strings.ToUpper(r.Method)
 
 	if method != "POST" {
@@ -36,19 +54,26 @@ func Trial(w http.ResponseWriter, r *http.Request) {
 	}
 	err := r.ParseForm()
 	if err != nil {
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		log.Println("Internal server error encountered, redirecting to /500 page")
+		http.Redirect(w, r, "/500", http.StatusFound)
 		return
 	}
 
-	if !CheckFileEmpty(r.Form.Get("Banner")) {
+	if !IsBannerAccepted(r.Form.Get("Banner")) {
 		log.Println("Bannner unavailabe redirecting to page 404banner")
-		http.Redirect(w, r, "/404banner?error=true", http.StatusFound)
+		http.Redirect(w, r, "/404banner", http.StatusFound)
+		return
+	}
+
+	if !CheckFileAuthencity(r.Form.Get("Banner")) {
+		log.Println("Internal server error encountered, redirecting to /500 page")
+		http.Redirect(w, r, "/500?error=true", http.StatusFound)
 		return
 	}
 
 	if !IsItAnAsciiCharacter(r.Form.Get("input-text")) {
 		log.Println("Non-ASCII character found, redirecting to /400")
-		http.Redirect(w, r, "/400?error=true", http.StatusFound)
+		http.Redirect(w, r, "/400", http.StatusFound)
 
 		return
 	}
@@ -75,10 +100,14 @@ func Asciihandler(w http.ResponseWriter, r *http.Request) {
 
 	tmpl, err := template.ParseFiles("asciipage.html")
 	if err != nil {
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		log.Println("Internal server error encountered, redirecting to /500 page")
+		http.Redirect(w, r, "/500?error=true", http.StatusFound)
+		return
 	}
 	err = tmpl.Execute(w, data)
 	if err != nil {
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		log.Println("Internal server error encountered, redirecting to /500 page")
+		http.Redirect(w, r, "/500?error=true", http.StatusFound)
+		return
 	}
 }

@@ -1,30 +1,27 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"ascii-art/asciifunc"
 )
 
 func main() {
+	myargs := os.Args[1:]
+	if len(myargs) > 0 {
+		fmt.Println("Too many args used in the terminal")
+		os.Exit(1)
+	}
+
 	mux := http.NewServeMux()
 	fs := http.FileServer(http.Dir("static"))
 	mux.Handle("/static/", http.StripPrefix("/static/", fs))
 
-	// img := http.FileServer(http.Dir("images"))
-	// mux.Handle("/images/", http.StripPrefix("/images/", img))
-
 	mux.HandleFunc("/", asciifunc.Router)
-	mux.HandleFunc("/asciihandler", asciifunc.Trial)
-	mux.HandleFunc("/400", asciifunc.BadRequest)
-	mux.HandleFunc("/400/badrequest", asciifunc.LoadContentHandler)
-	mux.HandleFunc("/500", asciifunc.StatusInternalServerError)
-	mux.HandleFunc("/internalservererror", asciifunc.LoadContentHandlerInternalError)
-	mux.HandleFunc("/405", asciifunc.Wrongmethodused)
-	mux.HandleFunc("/404banner", asciifunc.StatusUnavailableBanner)
-	mux.HandleFunc("/unavailablebanner", asciifunc.Setstatus)
 
-	log.Println("starting server on: http://localhost:8087")
-	log.Fatal(http.ListenAndServe("localhost:8086", mux))
+	log.Println("starting server on: http://localhost:8086")
+	log.Fatal(http.ListenAndServe("localhost:8087", mux))
 }
