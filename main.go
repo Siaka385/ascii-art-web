@@ -23,5 +23,5 @@ func main() {
 	mux.HandleFunc("/", asciifunc.Router)
 
 	log.Println("starting server on: http://localhost:8086")
-	log.Fatal(http.ListenAndServe("localhost:8087", mux))
+	log.Fatal(http.ListenAndServe("localhost:8086", mux))
 }
