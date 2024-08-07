@@ -27,7 +27,7 @@ To run the application:
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/jerootieno/ascii-art-web.git
+    git clone https://github.com/Siaka385/ascii-art-web.git
     ```
 2. Navigate to the project directory:
     ```sh
@@ -59,3 +59,6 @@ To run the application:
         - `400 Bad Request`: For incorrect requests.
         - `500 Internal Server Error`: For unhandled errors.
         - `405 method not allowed`:For wrong method used
+
+### Contributors
+feel free to fork this repo and contribute
