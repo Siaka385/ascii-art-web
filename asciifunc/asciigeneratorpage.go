@@ -3,6 +3,7 @@ package asciifunc
 import (
 	"log"
 	"net/http"
+	"os"
 	"strings"
 	"text/template"
 )
@@ -36,6 +37,9 @@ func Router(w http.ResponseWriter, r *http.Request) {
 		return
 	} else if r.URL.Path == "/unavailablebanner" {
 		Setstatus(w, r, http.StatusNotFound)
+		return
+	} else if r.URL.Path == "/accessforbidden" {
+		PageNotFound(w, "403.html", nil, http.StatusForbidden)
 		return
 	} else {
 		PageNotFound(w, "404.html", nil, http.StatusNotFound)
@@ -78,6 +82,24 @@ func CheckError(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	Asciihandler(w, r)
+}
+
+func Fileserver(w http.ResponseWriter, r *http.Request) {
+	filepath := "." + r.URL.Path
+
+	info, err := os.Stat(filepath)
+	if err != nil {
+		http.Redirect(w, r, "/400", http.StatusFound)
+		return
+	}
+
+	if info.IsDir() {
+		// Prevent access to directories of the files
+		http.Redirect(w, r, "/accessforbidden", http.StatusFound)
+		return
+	}
+
+	http.ServeFile(w, r, filepath)
 }
 
 func Asciihandler(w http.ResponseWriter, r *http.Request) {
