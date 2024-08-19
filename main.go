@@ -17,14 +17,14 @@ func main() {
 	}
 
 	mux := http.NewServeMux()
-	fs := http.FileServer(http.Dir("static"))
-	mux.Handle("/static/", http.StripPrefix("/static/", fs))
+
+	//for file server
+	mux.HandleFunc("/static/", asciifunc.Fileserver)
 
 	mux.HandleFunc("/", asciifunc.Router)
-	//Modify your Go server code to listen on all interfaces (0.0.0.0) instead of just localhost:
+	// Modify your Go server code to listen on all interfaces (0.0.0.0) instead of just localhost:
 	log.Println("starting server on: http://0.0.0.0:8080")
-	if err := http.ListenAndServe("0.0.0.0:8080", mux); err != nil {
+	if err := http.ListenAndServe("0.0.0.0:8088", mux); err != nil {
 		log.Fatalf("could not start server: %s\n", err)
 	}
-
 }
