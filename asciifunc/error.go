@@ -9,7 +9,7 @@ import (
 func PageNotFound(w http.ResponseWriter, tmpl string, data interface{}, statusCode int) {
 	t, err := template.ParseFiles(tmpl)
 	if err != nil {
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		http.Error(w, "Internal Server Error", http.StatusNotFound)
 		return
 	}
 	w.Header().Set("Content-type", "text/html")
@@ -20,7 +20,8 @@ func PageNotFound(w http.ResponseWriter, tmpl string, data interface{}, statusCo
 func StatusInternalServerError(w http.ResponseWriter, r *http.Request) {
 	tmp, err := template.ParseFiles("500.html")
 	if err != nil {
-		http.Error(w, "Internal server Error", http.StatusInternalServerError)
+		log.Println("Banner missing, redirecting to /404 page")
+		http.Redirect(w, r, "/notfound", http.StatusFound)
 		return
 	}
 
@@ -34,8 +35,7 @@ func StatusInternalServerError(w http.ResponseWriter, r *http.Request) {
 func StatusUnavailableBanner(w http.ResponseWriter, r *http.Request) {
 	tmp, err := template.ParseFiles("banner404.html")
 	if err != nil {
-		log.Println("Internal server error encountered, redirecting to /500 page")
-		http.Redirect(w, r, "/500?error=true", http.StatusFound)
+		http.Error(w, "Bannner missing", http.StatusNotFound)
 		return
 	}
 
@@ -50,7 +50,7 @@ func StatusUnavailableBanner(w http.ResponseWriter, r *http.Request) {
 func BadRequest(w http.ResponseWriter, r *http.Request) {
 	tmpl, err := template.ParseFiles("400.html")
 	if err != nil {
-		log.Println("Internal server error encountered, redirecting to /404 page")
+		log.Println("Banner missing, redirecting to /404 page")
 		http.Redirect(w, r, "/notfound", http.StatusFound)
 		return
 	}

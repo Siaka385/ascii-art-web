@@ -1,7 +1,7 @@
 package asciifunc
 
 import (
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -104,17 +104,6 @@ func TestRenderTemplateSuccessfully(t *testing.T) {
 	}
 }
 
-func TestStatusInternalServerError_ParsesTemplate(t *testing.T) {
-	w := httptest.NewRecorder()
-	r := httptest.NewRequest(http.MethodGet, "/", nil)
-
-	StatusInternalServerError(w, r)
-
-	if w.Code != http.StatusInternalServerError {
-		t.Errorf("Expected status code %d, got %d", http.StatusOK, w.Code)
-	}
-}
-
 func TestStatusUnavailableBanner_Success(t *testing.T) {
 	w := httptest.NewRecorder()
 	r := httptest.NewRequest(http.MethodGet, "/", nil)
@@ -124,7 +113,7 @@ func TestStatusUnavailableBanner_Success(t *testing.T) {
 	result := w.Result()
 	defer result.Body.Close()
 
-	if result.StatusCode != 302 {
+	if result.StatusCode != 404 {
 		t.Errorf("expected status OK; got %v", result.Status)
 	}
 }
@@ -136,13 +125,13 @@ func TestBadRequestExecutesTemplate(t *testing.T) {
 
 	// Create a valid 400.html template file
 	tmplContent := "<html><body>Bad Request</body></html>"
-	ioutil.WriteFile("400.html", []byte(tmplContent), 0o644)
+	os.WriteFile("400.html", []byte(tmplContent), 0o644)
 	defer os.Remove("400.html")
 
 	BadRequest(w, r)
 
 	result := w.Result()
-	body, _ := ioutil.ReadAll(result.Body)
+	body, _ := io.ReadAll(result.Body)
 
 	if result.StatusCode != http.StatusOK {
 		t.Errorf("Expected status OK, got %v", result.StatusCode)

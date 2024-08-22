@@ -15,7 +15,7 @@ type Data struct {
 func Router(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path == "/" {
 		Indexhandler(w, r)
-	} else if r.URL.Path == "/asciihandler" {
+	} else if r.URL.Path == "/ascii-art" {
 		CheckError(w, r)
 	} else if r.URL.Path == "/400" {
 		BadRequest(w, r)
@@ -40,6 +40,9 @@ func Router(w http.ResponseWriter, r *http.Request) {
 		return
 	} else if r.URL.Path == "/accessforbidden" {
 		PageNotFound(w, "403.html", nil, http.StatusForbidden)
+		return
+	} else if r.URL.Path == "/download" {
+		Download(w, r)
 		return
 	} else {
 		PageNotFound(w, "404.html", nil, http.StatusNotFound)
@@ -116,6 +119,11 @@ func Asciihandler(w http.ResponseWriter, r *http.Request) {
 		print += Asciigenerate([]string{r.Form.Get("input-text"), r.Form.Get("Banner")})
 	}
 
+	// save art to the file we will send to user when they click the download button
+	os.Truncate("tester.txt", 0)
+	os.WriteFile("tester.txt", []byte(print), 0o644)
+
+	// print the art
 	data := Data{
 		Result: print,
 	}

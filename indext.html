@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ASCII ART WEB</title>
     <link rel="stylesheet" href="static/styles.css">
     <link rel="stylesheet" href="static/400.css">
@@ -18,7 +19,7 @@
         </header>
         <main>
        
-            <form class="input-section" hx-post="/asciihandler" hx-target="#result" hx-swap="innerHTML">
+            <form class="input-section" hx-post="/ascii-art" hx-target="#result" hx-swap="innerHTML">
                 <h2>Input text here</h2>
                 <textarea id="input-text" name="input-text" placeholder="Type here........" required></textarea>
                 <div class="buttons">
@@ -30,6 +31,8 @@
                         </select>
                     </div>
                     <button class="generate"  type="submit">Generate...</button>
+                
+                    <button id="download" style="background-color: #e94560;color: aliceblue;">Download File</button>
                     <button class="reset" hx-post="/" hx-target="body" hx-swap="innerHTML">RESET</button>
 
                 </div>
@@ -66,5 +69,19 @@
     <footer>
         <p>@Zone01 Kisumu</p>
     </footer>
+
+
+    <script>
+window.onload=()=>{
+    document.getElementById("download").addEventListener('click',function(){
+    if (document.getElementById("input-text").value == ""){
+        
+    }else{
+        window.location.href="/download";
+    }
+    
+}); 
+};     
+    </script>
 </body>
 </html>
